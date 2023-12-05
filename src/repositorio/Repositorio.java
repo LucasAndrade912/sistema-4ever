@@ -29,3 +29,19 @@ public class Repositorio {
         return e.id + 1;
     }
 }
+
+// Teste de autoincremento
+//import java.util.ArrayList;
+//
+//class HelloWorld {
+//    public static void main(String[] args) {
+//        ArrayList<String> nomes = new ArrayList<>();
+//
+//        nomes.add("3");
+//        nomes.add("4");
+//        nomes.add("5");
+//        nomes.add("6");
+//
+//        System.out.println("Lista de nomes: " + nomes.get(nomes.size() - 1));
+//    }
+//}
