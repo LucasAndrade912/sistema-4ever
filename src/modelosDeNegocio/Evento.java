@@ -8,7 +8,6 @@ public class Evento {
     private String descricao;
     private int capacidade;
     private double preco;
-    private boolean lotado;
     private ArrayList<Ingresso> ingressos = new ArrayList<>();
 
     public Evento(int id, String data, String descricao, int capacidade, double preco) {
@@ -19,7 +18,27 @@ public class Evento {
         this.preco = preco;
     }
 
+    public boolean lotado() {
+        return this.ingressos.size() == this.capacidade;
+    }
+
+    public int quantidadeIngressos() {
+        return this.ingressos.size();
+    }
+
+    public double totaArrecadado() {
+        return quantidadeIngressos() * this.preco;
+    }
+
     public int getId() {
         return id;
+    }
+
+    public ArrayList<Ingresso> getIngressos() {
+        return ingressos;
+    }
+
+    public void setIngressos(ArrayList<Ingresso> ingressos) {
+        this.ingressos = ingressos;
     }
 }
