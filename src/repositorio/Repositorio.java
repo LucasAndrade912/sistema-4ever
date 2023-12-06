@@ -5,33 +5,64 @@ import modelosDeNegocio.Ingresso;
 import modelosDeNegocio.Participante;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Repositorio {
     private ArrayList<Evento> eventos = new ArrayList<>();
     private ArrayList<Participante> participantes = new ArrayList<>();
     private ArrayList<Ingresso> ingressos = new ArrayList<>();
-    private int id;
 
-    public void adicionarEvento(String data, String descricao, int capacidade, double preco) {
-        eventos.add(new Evento(gerarID(), data, descricao, capacidade, preco));
+    public void adicionar(Evento evento) {
+        eventos.add(evento);
     }
 
-    public void apagarEvento(int id) {
-
+    public void apagar(Evento evento) {
+        eventos.remove(evento);
     }
 
     public Evento localizarEvento(int id) {
-        for(Evento evento : eventos)
-            if (evento.getId() == id) {
-                return evento;
-            }
+        for (Evento evento : eventos)
+            if (evento.getId() == id) return evento;
+
         return null;
     }
 
-    private int gerarID() {
-        if (this.eventos == null)
-            return 0;
-        Evento e = eventos.get(eventos.size() - 1);
-        return e.getId() + 1;
+
+    public void adicionar(Ingresso ingresso) {
+        ingressos.add(ingresso);
+    }
+
+    public void apagar(Ingresso ingresso) {
+        ingressos.remove(ingresso);
+    }
+
+    public Ingresso localizarIngresso(String codigo) {
+        for (Ingresso ingresso : ingressos)
+            if (ingresso.getCodigo().equals(codigo)) return ingresso;
+
+        return null;
+    }
+
+
+    public void adicionar(Participante participante) {
+        participantes.add(participante);
+    }
+
+    public void apagar(Participante participante) {
+        participantes.remove(participante);
+    }
+
+    public Participante localizarParticipante(String cpf) {
+        for (Participante participante : participantes)
+            if (participante.getCpf().equals(cpf)) return participante;
+
+        return null;
+    }
+
+    public int gerarId() {
+        if (this.eventos == null) return 1;
+
+        Evento evento = eventos.get(eventos.size() - 1);
+        return evento.getId() + 1;
     }
 }
