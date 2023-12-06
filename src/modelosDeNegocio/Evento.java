@@ -35,6 +35,11 @@ public class Evento {
         novoIngresso.setEvento(this);
     }
 
+    public void remover(Ingresso ingresso) {
+        this.ingressos.remove(ingresso);
+        ingresso.setEvento(null);
+    }
+
     public int getId() {
         return id;
     }

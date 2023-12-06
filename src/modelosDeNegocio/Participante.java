@@ -31,4 +31,8 @@ public class Participante {
     public String getCpf() {
         return cpf;
     }
+
+    public ArrayList<Ingresso> getIngressos() {
+        return ingressos;
+    }
 }

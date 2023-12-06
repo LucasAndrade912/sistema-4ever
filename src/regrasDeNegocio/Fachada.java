@@ -5,6 +5,10 @@ import modelosDeNegocio.Evento;
 import modelosDeNegocio.Ingresso;
 import modelosDeNegocio.Participante;
 import repositorio.Repositorio;
+import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class Fachada {
     private static Repositorio repositorio = new Repositorio();
@@ -57,5 +61,51 @@ public class Fachada {
 
         evento.adicionar(novoIngresso);
         participante.adicionar(novoIngresso);
+    }
+
+    public static void apagarEvento(int id) throws Exception{
+        Evento e = repositorio.localizarEvento(id);
+
+        if (Objects.isNull(e))
+            throw new Exception("O ID passado não corresponde a nenhum evento.");
+
+        if (e.quantidadeIngressos() > 0)
+            throw new Exception("O evento só pode ser apagado caso não tenha ingresso.");
+
+        repositorio.apagar(e);
+    }
+
+    public static void apagarParticipante(String cpf) throws Exception{
+        Participante p = repositorio.localizarParticipante(cpf);
+
+        if (Objects.isNull(p))
+            throw new Exception("O cpf passado não corresponde a nenhum participante.");
+
+        LocalDate hoje = LocalDate.now();
+        ArrayList<Ingresso> ingressos = p.getIngressos();
+        if (!ingressos.isEmpty()) {
+//          Pegando a data do ultimo ingresso do arrayList de ingressos do participante
+            String ultimoIngresso = String.valueOf(ingressos.get(ingressos.size() - 1));
+
+//          Transformando essa data em LocalDate
+            LocalDate dataIngresso = LocalDate.parse(ultimoIngresso);
+
+            if (hoje.isAfter(dataIngresso)) {
+                for (Ingresso ingresso : p.getIngressos()) {
+                    Evento evento = ingresso.getEvento();
+                    evento.remover(ingresso);
+                    repositorio.apagar(ingresso);
+                }
+
+                repositorio.apagar(p);
+            }
+        }
+
+//        if (!ingressos.isEmpty()) {
+//            int dataUltimoIngresso = ingressos.get(ingressos.size() - 1);
+//
+//            // Convertendo o inteiro para LocalDate (assumindo formato YYYYMMDD)
+//            LocalDate dataUltimoIngressoLocalDate = LocalDate.parse(String.valueOf(dataUltimoIngresso));
+
     }
 }
