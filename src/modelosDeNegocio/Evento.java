@@ -34,6 +34,10 @@ public class Evento {
         return id;
     }
 
+    public double getPreco() {
+        return preco;
+    }
+
     public ArrayList<Ingresso> getIngressos() {
         return ingressos;
     }
