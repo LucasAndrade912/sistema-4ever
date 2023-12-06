@@ -1,5 +1,7 @@
 package modelosDeNegocio;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Participante {
@@ -10,6 +12,15 @@ public class Participante {
     public Participante(String cpf, String nascimento) {
         this.cpf = cpf;
         this.nascimento = nascimento;
+    }
+
+    public int calcularIdade() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        int anoNascimento = LocalDate.parse(this.nascimento, formatter).getYear();
+        int anoAtual = LocalDate.now().getYear();
+
+        return anoAtual - anoNascimento;
     }
 
     public String getCpf() {
