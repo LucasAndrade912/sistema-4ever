@@ -23,6 +23,11 @@ public class Participante {
         return anoAtual - anoNascimento;
     }
 
+    public void adicionar(Ingresso novoIngresso) {
+        this.ingressos.add(novoIngresso);
+        novoIngresso.setParticipante(this);
+    }
+
     public String getCpf() {
         return cpf;
     }

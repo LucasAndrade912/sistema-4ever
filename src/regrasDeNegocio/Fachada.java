@@ -53,5 +53,9 @@ public class Fachada {
 
         String codigo = id + "-" + cpf;
         Ingresso novoIngresso = new Ingresso(codigo, telefone);
+        repositorio.adicionar(novoIngresso);
+
+        evento.adicionar(novoIngresso);
+        participante.adicionar(novoIngresso);
     }
 }

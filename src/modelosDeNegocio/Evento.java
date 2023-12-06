@@ -30,19 +30,16 @@ public class Evento {
         return quantidadeIngressos() * this.preco;
     }
 
+    public void adicionar(Ingresso novoIngresso) {
+        this.ingressos.add(novoIngresso);
+        novoIngresso.setEvento(this);
+    }
+
     public int getId() {
         return id;
     }
 
     public double getPreco() {
         return preco;
-    }
-
-    public ArrayList<Ingresso> getIngressos() {
-        return ingressos;
-    }
-
-    public void setIngressos(ArrayList<Ingresso> ingressos) {
-        this.ingressos = ingressos;
     }
 }
