@@ -101,11 +101,15 @@ public class Fachada {
             }
         }
 
-//        if (!ingressos.isEmpty()) {
-//            int dataUltimoIngresso = ingressos.get(ingressos.size() - 1);
-//
-//            // Convertendo o inteiro para LocalDate (assumindo formato YYYYMMDD)
-//            LocalDate dataUltimoIngressoLocalDate = LocalDate.parse(String.valueOf(dataUltimoIngresso));
+        public static void apagarIngresso(String codigo) throws Exception {
+            Ingresso i = repositorio.localizarIngresso(codigo);
 
+            if (Objects.isNull(i))
+                throw new Exception("O ingresso passado não corresponde a nenhum ingresso existente.");
+
+            Evento e = i.getEvento();
+            e.remover(i);
+            repositorio.apagar(i);
+        }
     }
 }
