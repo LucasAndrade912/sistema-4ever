@@ -47,4 +47,16 @@ public class Evento {
     public double getPreco() {
         return preco;
     }
+
+    public String getData() {
+        return data;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public int getCapacidade() {
+        return capacidade;
+    }
 }

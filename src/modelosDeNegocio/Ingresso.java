@@ -6,6 +6,13 @@ public class Ingresso {
     private Evento evento;
     private Participante participante;
 
+    public Ingresso(String codigo, String telefone, Evento evento, Participante participante) {
+        this.codigo = codigo;
+        this.telefone = telefone;
+        this.evento = evento;
+        this.participante = participante;
+    }
+
     public Ingresso(String codigo, String telefone) {
         this.codigo = codigo;
         this.telefone = telefone;
@@ -30,6 +37,10 @@ public class Ingresso {
 
     public Evento getEvento() {
         return evento;
+    }
+
+    public String getTelefone() {
+        return telefone;
     }
 
     public void setEvento(Evento evento) {

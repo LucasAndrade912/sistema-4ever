@@ -35,4 +35,8 @@ public class Participante {
     public ArrayList<Ingresso> getIngressos() {
         return ingressos;
     }
+
+    public String getNascimento() {
+        return nascimento;
+    }
 }

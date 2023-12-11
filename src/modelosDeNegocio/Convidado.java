@@ -7,4 +7,8 @@ public class Convidado extends Participante {
         super(cpf, nascimento);
         this.empresa = empresa;
     }
+
+    public String getEmpresa() {
+        return empresa;
+    }
 }
