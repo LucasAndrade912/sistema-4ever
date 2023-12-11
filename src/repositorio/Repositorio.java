@@ -5,12 +5,23 @@ import modelosDeNegocio.Ingresso;
 import modelosDeNegocio.Participante;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Repositorio {
     private ArrayList<Evento> eventos = new ArrayList<>();
     private ArrayList<Participante> participantes = new ArrayList<>();
     private ArrayList<Ingresso> ingressos = new ArrayList<>();
+
+    public ArrayList<Evento> getEventos() {
+        return eventos;
+    }
+
+    public ArrayList<Participante> getParticipantes() {
+        return participantes;
+    }
+
+    public ArrayList<Ingresso> getIngressos() {
+        return ingressos;
+    }
 
     public void adicionar(Evento evento) {
         eventos.add(evento);

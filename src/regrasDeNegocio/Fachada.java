@@ -100,16 +100,28 @@ public class Fachada {
                 repositorio.apagar(p);
             }
         }
+    }
 
-        public static void apagarIngresso(String codigo) throws Exception {
-            Ingresso i = repositorio.localizarIngresso(codigo);
+    public static void apagarIngresso(String codigo) throws Exception {
+        Ingresso i = repositorio.localizarIngresso(codigo);
 
-            if (Objects.isNull(i))
-                throw new Exception("O ingresso passado não corresponde a nenhum ingresso existente.");
+        if (Objects.isNull(i))
+            throw new Exception("O ingresso passado não corresponde a nenhum ingresso existente.");
 
-            Evento e = i.getEvento();
-            e.remover(i);
-            repositorio.apagar(i);
-        }
+        Evento e = i.getEvento();
+        e.remover(i);
+        repositorio.apagar(i);
+    }
+
+    public static ArrayList<Evento> listarEventos() {
+        return repositorio.getEventos();
+    }
+
+    public static ArrayList<Participante> listarParticipantes() {
+        return repositorio.getParticipantes();
+    }
+
+    public static ArrayList<Ingresso> listarIngresssos() {
+        return repositorio.getIngressos();
     }
 }
