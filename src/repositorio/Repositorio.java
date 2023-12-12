@@ -21,12 +21,10 @@ public class Repositorio {
 
     public void adicionar(Evento evento) {
         eventos.add(evento);
-        salvarObjetos();
     }
 
     public void apagar(Evento evento) {
         eventos.remove(evento);
-        salvarObjetos();
     }
 
     public Evento localizarEvento(int id) {
@@ -38,12 +36,10 @@ public class Repositorio {
 
     public void adicionar(Ingresso ingresso) {
         ingressos.add(ingresso);
-        salvarObjetos();
     }
 
     public void apagar(Ingresso ingresso) {
         ingressos.remove(ingresso);
-        salvarObjetos();
     }
 
     public Ingresso localizarIngresso(String codigo) {
@@ -55,12 +51,10 @@ public class Repositorio {
 
     public void adicionar(Participante participante) {
         participantes.add(participante);
-        salvarObjetos();
     }
 
     public void apagar(Participante participante) {
         participantes.remove(participante);
-        salvarObjetos();
     }
 
     public Participante localizarParticipante(String cpf) {
@@ -174,7 +168,7 @@ public class Repositorio {
         }
     }
 
-    private void salvarObjetos() {
+    public void salvarObjetos() {
         try	{
             File f = new File( new File("eventos.csv").getCanonicalPath());
             FileWriter arquivo1 = new FileWriter(f);

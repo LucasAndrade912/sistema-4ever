@@ -24,6 +24,7 @@ public class Fachada {
 
         Evento novoEvento = new Evento(repositorio.gerarId(), data, descricao, capacidade, preco);
         repositorio.adicionar(novoEvento);
+        repositorio.salvarObjetos();
     }
 
     public static void criarParticipante(String cpf, String nascimento) throws Exception {
@@ -34,6 +35,7 @@ public class Fachada {
 
         Participante novoParticipante = new Participante(cpf, nascimento);
         repositorio.adicionar(novoParticipante);
+        repositorio.salvarObjetos();
     }
 
     public static void criarConvidado(String cpf, String nascimento, String empresa) throws Exception {
@@ -46,6 +48,7 @@ public class Fachada {
 
         Convidado novoConvidado = new Convidado(cpf, nascimento, empresa);
         repositorio.adicionar(novoConvidado);
+        repositorio.salvarObjetos();
     }
 
     public static void criarIngresso(int id, String cpf, String telefone) throws Exception {
@@ -71,18 +74,20 @@ public class Fachada {
 
         evento.adicionar(novoIngresso);
         participante.adicionar(novoIngresso);
+        repositorio.salvarObjetos();
     }
 
     public static void apagarEvento(int id) throws Exception {
-        Evento e = repositorio.localizarEvento(id);
+        Evento evento = repositorio.localizarEvento(id);
 
-        if (Objects.isNull(e))
+        if (Objects.isNull(evento))
             throw new Exception("O ID passado não corresponde a nenhum evento.");
 
-        if (e.quantidadeIngressos() > 0)
+        if (evento.quantidadeIngressos() > 0)
             throw new Exception("O evento só pode ser apagado caso não tenha ingresso.");
 
-        repositorio.apagar(e);
+        repositorio.apagar(evento);
+        repositorio.salvarObjetos();
     }
 
     public static void apagarParticipante(String cpf) throws Exception {
@@ -109,6 +114,7 @@ public class Fachada {
             }
 
             repositorio.apagar(participante);
+            repositorio.salvarObjetos();
         }
     }
 
@@ -123,6 +129,7 @@ public class Fachada {
         evento.remover(ingresso);
         participante.remover(ingresso);
         repositorio.apagar(ingresso);
+        repositorio.salvarObjetos();
     }
 
     public static ArrayList<Evento> listarEventos() {
