@@ -21,14 +21,14 @@ public class Ingresso {
     public double calcularPreco() {
         double preco = evento.getPreco();
         int idade = participante.calcularIdade();
-        double desconto = 1;
+        double desconto = 0;
 
         if (idade < 18) desconto += 0.1;
         else if (idade >= 60) desconto += 0.2;
 
         if (participante instanceof Convidado) desconto += 0.5;
 
-        return preco * desconto;
+        return preco - preco * desconto;
     }
 
     public String getCodigo() {

@@ -60,6 +60,10 @@ public class Evento {
         return capacidade;
     }
 
+    public ArrayList<Ingresso> getIngressos() {
+        return ingressos;
+    }
+
     @Override
     public String toString() {
         return "Evento{" +
