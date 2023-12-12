@@ -3,8 +3,8 @@ package modelosDeNegocio;
 public class Ingresso {
     private String codigo;
     private String telefone;
-    private Evento evento;
-    private Participante participante;
+    private Evento evento = null;
+    private Participante participante = null;
 
     public Ingresso(String codigo, String telefone, Evento evento, Participante participante) {
         this.codigo = codigo;
@@ -53,5 +53,15 @@ public class Ingresso {
 
     public void setParticipante(Participante participante) {
         this.participante = participante;
+    }
+
+    @Override
+    public String toString() {
+        return "Ingresso{" +
+                "codigo='" + codigo + '\'' +
+                ", telefone='" + telefone + '\'' +
+                ", evento=" + evento.getId() +
+                ", participante=" + participante.getCpf() +
+                '}';
     }
 }

@@ -28,6 +28,11 @@ public class Participante {
         novoIngresso.setParticipante(this);
     }
 
+    public void remover(Ingresso ingresso) {
+        this.ingressos.remove(ingresso);
+        ingresso.setParticipante(null);
+    }
+
     public String getCpf() {
         return cpf;
     }
@@ -38,5 +43,14 @@ public class Participante {
 
     public String getNascimento() {
         return nascimento;
+    }
+
+    @Override
+    public String toString() {
+        return "Participante{" +
+                "cpf='" + cpf + '\'' +
+                ", nascimento='" + nascimento + '\'' +
+                ", ingressos=" + ingressos +
+                '}';
     }
 }

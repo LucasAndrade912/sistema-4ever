@@ -5,8 +5,9 @@ import modelosDeNegocio.Evento;
 import modelosDeNegocio.Ingresso;
 import modelosDeNegocio.Participante;
 import repositorio.Repositorio;
+
 import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -29,6 +30,8 @@ public class Fachada {
         if (repositorio.localizarParticipante(cpf) != null)
             throw new Exception("Já existe um participante com este cpf. Informe outro.");
 
+        if (nascimento.isEmpty()) throw new Exception("Forneça a data de nascimento do participante.");
+
         Participante novoParticipante = new Participante(cpf, nascimento);
         repositorio.adicionar(novoParticipante);
     }
@@ -37,11 +40,18 @@ public class Fachada {
         if (repositorio.localizarParticipante(cpf) != null)
             throw new Exception("Já existe um convidado com este cpf. Informe outro.");
 
+        if (nascimento.isEmpty()) throw new Exception("Forneça a data de nascimento do convidado.");
+
+        if (empresa.isEmpty()) throw new Exception("Forneça a empresa do convidado.");
+
         Convidado novoConvidado = new Convidado(cpf, nascimento, empresa);
         repositorio.adicionar(novoConvidado);
     }
 
     public static void criarIngresso(int id, String cpf, String telefone) throws Exception {
+        if (repositorio.localizarIngresso(id + "-" + cpf) != null)
+            throw new Exception("Ingresso já criado, por favor informe outro ID ou CPF.");
+
         if (telefone.isEmpty()) throw new Exception("O telefone é obrigatório!!");
 
         Evento evento = repositorio.localizarEvento(id);
@@ -53,7 +63,7 @@ public class Fachada {
         if (participante == null)
             throw new Exception("Participante inexistente. Por favor informe um participante existente.");
 
-        if (evento.lotado()) throw new Exception("O evento já está cheio, tente outro evento.");
+        if (evento.lotado()) throw new Exception("O evento " + evento.getId() + " já está cheio, tente outro evento.");
 
         String codigo = id + "-" + cpf;
         Ingresso novoIngresso = new Ingresso(codigo, telefone);
@@ -63,7 +73,7 @@ public class Fachada {
         participante.adicionar(novoIngresso);
     }
 
-    public static void apagarEvento(int id) throws Exception{
+    public static void apagarEvento(int id) throws Exception {
         Evento e = repositorio.localizarEvento(id);
 
         if (Objects.isNull(e))
@@ -75,42 +85,44 @@ public class Fachada {
         repositorio.apagar(e);
     }
 
-    public static void apagarParticipante(String cpf) throws Exception{
-        Participante p = repositorio.localizarParticipante(cpf);
+    public static void apagarParticipante(String cpf) throws Exception {
+        Participante participante = repositorio.localizarParticipante(cpf);
 
-        if (Objects.isNull(p))
+        if (Objects.isNull(participante))
             throw new Exception("O cpf passado não corresponde a nenhum participante.");
 
         LocalDate hoje = LocalDate.now();
-        ArrayList<Ingresso> ingressos = p.getIngressos();
+        ArrayList<Ingresso> ingressos = participante.getIngressos();
+
         if (!ingressos.isEmpty()) {
-//          Pegando a data do ultimo ingresso do arrayList de ingressos do participante
-            String ultimoIngresso = String.valueOf(ingressos.get(ingressos.size() - 1));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            Ingresso ultimoIngresso = ingressos.get(ingressos.size() - 1);
+            LocalDate dataUltimoIngresso = LocalDate.parse(ultimoIngresso.getEvento().getData(), formatter);
 
-//          Transformando essa data em LocalDate
-            LocalDate dataIngresso = LocalDate.parse(ultimoIngresso);
+            if (hoje.isBefore(dataUltimoIngresso)) // data do último ingresso ainda não foi ultrapassada
+                throw new Exception("O participante ainda tem ingresso em uso.");
 
-            if (hoje.isAfter(dataIngresso)) {
-                for (Ingresso ingresso : p.getIngressos()) {
-                    Evento evento = ingresso.getEvento();
-                    evento.remover(ingresso);
-                    repositorio.apagar(ingresso);
-                }
-
-                repositorio.apagar(p);
+            for (Ingresso ingresso : ingressos) {
+                Evento evento = ingresso.getEvento();
+                evento.remover(ingresso);
+                repositorio.apagar(ingresso);
             }
+
+            repositorio.apagar(participante);
         }
     }
 
     public static void apagarIngresso(String codigo) throws Exception {
-        Ingresso i = repositorio.localizarIngresso(codigo);
+        Ingresso ingresso = repositorio.localizarIngresso(codigo);
 
-        if (Objects.isNull(i))
+        if (Objects.isNull(ingresso))
             throw new Exception("O ingresso passado não corresponde a nenhum ingresso existente.");
 
-        Evento e = i.getEvento();
-        e.remover(i);
-        repositorio.apagar(i);
+        Evento evento = ingresso.getEvento();
+        Participante participante = ingresso.getParticipante();
+        evento.remover(ingresso);
+        participante.remover(ingresso);
+        repositorio.apagar(ingresso);
     }
 
     public static ArrayList<Evento> listarEventos() {
@@ -121,7 +133,7 @@ public class Fachada {
         return repositorio.getParticipantes();
     }
 
-    public static ArrayList<Ingresso> listarIngresssos() {
+    public static ArrayList<Ingresso> listarIngressos() {
         return repositorio.getIngressos();
     }
 }

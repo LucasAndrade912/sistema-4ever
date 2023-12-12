@@ -26,7 +26,7 @@ public class Evento {
         return this.ingressos.size();
     }
 
-    public double totaArrecadado() {
+    public double totalArrecadado() {
         return quantidadeIngressos() * this.preco;
     }
 
@@ -58,5 +58,17 @@ public class Evento {
 
     public int getCapacidade() {
         return capacidade;
+    }
+
+    @Override
+    public String toString() {
+        return "Evento{" +
+                "id=" + id +
+                ", data='" + data + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", capacidade=" + capacidade +
+                ", preco=" + preco +
+                ", ingressos=" + ingressos +
+                '}';
     }
 }
