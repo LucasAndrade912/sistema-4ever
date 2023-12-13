@@ -1,3 +1,5 @@
+// Alunos que participaram da construção desse código: Johnner Yelcde - 20222370015 / Lucas Andrade - 20222370031
+
 package appswing;
 
 import javax.swing.*;
